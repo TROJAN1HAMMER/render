@@ -1,0 +1,889 @@
+{
+  "info": {
+    "name": "BaldMann Backend API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {}
+            ],
+            "url": {
+              "raw": "https://frontman-1.onrender.com/auth/login",
+              "host": [
+                "https://frontman-1.onrender.com"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          }
+        },
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {}
+            ],
+            "url": {
+              "raw": "https://frontman-1.onrender.com/auth/register",
+              "host": [
+                "https://frontman-1.onrender.com"
+              ],
+              "path": [
+                "auth",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Get Products",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "https://frontman-1.onrender.com/admin/products",
+              "host": [
+                "https://frontman-1.onrender.com"
+              ],
+              "path": [
+                "admin",
+                "products"
+              ]
+            },
+            "body": {}
+          }
+        },
+        {
+          "name": "Get Stock",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "https://frontman-1.onrender.com/admin/stock",
+              "host": [
+                "https://frontman-1.onrender.com"
+              ],
+              "path": [
+                "admin",
+                "stock"
+              ]
+            },
+            "body": {}
+          }
+        },
+        {
+          "name": "Get Users",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "https://frontman-1.onrender.com/admin/users",
+              "host": [
+                "https://frontman-1.onrender.com"
+              ],
+              "path": [
+                "admin",
+                "users"
+              ]
+            },
+            "body": {}
+          }
+        },
+        {
+          "name": "Get Orders",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "https://frontman-1.onrender.com/admin/orders",
+              "host": [
+                "https://frontman-1.onrender.com"
+              ],
+              "path": [
+                "admin",
+                "orders"
+              ]
+            },
+            "body": {}
+          }
+        },
+        {
+          "name": "Get Warranty Cards",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "https://frontman-1.onrender.com/admin/warranty-cards",
+              "host": [
+                "https://frontman-1.onrender.com"
+              ],
+              "path": [
+                "admin",
+                "warranty-cards"
+              ]
+            },
+            "body": {}
+          }
+        },
+        {
+          "name": "Get Reports",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "https://frontman-1.onrender.com/admin/reports",
+              "host": [
+                "https://frontman-1.onrender.com"
+              ],
+              "path": [
+                "admin",
+                "reports"
+              ]
+            },
+            "body": {}
+          }
+        },
+        {
+          "name": "Get Invoices",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "https://frontman-1.onrender.com/admin/invoices",
+              "host": [
+                "https://frontman-1.onrender.com"
+              ],
+              "path": [
+                "admin",
+                "invoices"
+              ]
+            },
+            "body": {}
+          }
+        },
+        {
+          "name": "Search",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "https://frontman-1.onrender.com/admin/search",
+              "host": [
+                "https://frontman-1.onrender.com"
+              ],
+              "path": [
+                "admin",
+                "search"
+              ]
+            },
+            "body": {}
+          }
+        },
+        {
+          "name": "Notifications",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "https://frontman-1.onrender.com/admin/notifications",
+              "host": [
+                "https://frontman-1.onrender.com"
+              ],
+              "path": [
+                "admin",
+                "notifications"
+              ]
+            },
+            "body": {}
+          }
+        },
+        {
+          "name": "Audit Logs",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "https://frontman-1.onrender.com/admin/audit-logs",
+              "host": [
+                "https://frontman-1.onrender.com"
+              ],
+              "path": [
+                "admin",
+                "audit-logs"
+              ]
+            },
+            "body": {}
+          }
+        },
+        {
+          "name": "Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "https://frontman-1.onrender.com/admin/dashboard",
+              "host": [
+                "https://frontman-1.onrender.com"
+              ],
+              "path": [
+                "admin",
+                "dashboard"
+              ]
+            },
+            "body": {}
+          }
+        },
+        {
+          "name": "Incentives",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "https://frontman-1.onrender.com/admin/incentives",
+              "host": [
+                "https://frontman-1.onrender.com"
+              ],
+              "path": [
+                "admin",
+                "incentives"
+              ]
+            },
+            "body": {}
+          }
+        },
+        {
+          "name": "Points",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "https://frontman-1.onrender.com/admin/points",
+              "host": [
+                "https://frontman-1.onrender.com"
+              ],
+              "path": [
+                "admin",
+                "points"
+              ]
+            },
+            "body": {}
+          }
+        },
+        {
+          "name": "Location",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "https://frontman-1.onrender.com/admin/location",
+              "host": [
+                "https://frontman-1.onrender.com"
+              ],
+              "path": [
+                "admin",
+                "location"
+              ]
+            },
+            "body": {}
+          }
+        },
+        {
+          "name": "Shift Alerts",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "https://frontman-1.onrender.com/admin/shift-alerts",
+              "host": [
+                "https://frontman-1.onrender.com"
+              ],
+              "path": [
+                "admin",
+                "shift-alerts"
+              ]
+            },
+            "body": {}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Distributor",
+      "item": [
+        {
+          "name": "Catalog",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "https://frontman-1.onrender.com/distributor/catalog",
+              "host": [
+                "https://frontman-1.onrender.com"
+              ],
+              "path": [
+                "distributor",
+                "catalog"
+              ]
+            },
+            "body": {}
+          }
+        },
+        {
+          "name": "Order",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "https://frontman-1.onrender.com/distributor/order",
+              "host": [
+                "https://frontman-1.onrender.com"
+              ],
+              "path": [
+                "distributor",
+                "order"
+              ]
+            },
+            "body": {}
+          }
+        },
+        {
+          "name": "Stock",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "https://frontman-1.onrender.com/distributor/stock",
+              "host": [
+                "https://frontman-1.onrender.com"
+              ],
+              "path": [
+                "distributor",
+                "stock"
+              ]
+            },
+            "body": {}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Accountant",
+      "item": [
+        {
+          "name": "Invoice",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "https://frontman-1.onrender.com/accountant/invoice/68752d50d0cee31553856b24",
+              "host": [
+                "https://frontman-1.onrender.com"
+              ],
+              "path": [
+                "accountant",
+                "invoice",
+                "68752d50d0cee31553856b24"
+              ]
+            },
+            "body": {}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Worker",
+      "item": [
+        {
+          "name": "Attendance",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "https://frontman-1.onrender.com/worker/attendance",
+              "host": [
+                "https://frontman-1.onrender.com"
+              ],
+              "path": [
+                "worker",
+                "attendance"
+              ]
+            },
+            "body": {}
+          }
+        },
+        {
+          "name": "Production",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "https://frontman-1.onrender.com/worker/production",
+              "host": [
+                "https://frontman-1.onrender.com"
+              ],
+              "path": [
+                "worker",
+                "production"
+              ]
+            },
+            "body": {}
+          }
+        },
+        {
+          "name": "Shift Alerts",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "https://frontman-1.onrender.com/worker/shift-alerts",
+              "host": [
+                "https://frontman-1.onrender.com"
+              ],
+              "path": [
+                "worker",
+                "shift-alerts"
+              ]
+            },
+            "body": {}
+          }
+        }
+      ]
+    },
+    {
+      "name": "FieldExecutive",
+      "item": [
+        {
+          "name": "Followups",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "https://frontman-1.onrender.com/field-executive/followups",
+              "host": [
+                "https://frontman-1.onrender.com"
+              ],
+              "path": [
+                "field-executive",
+                "followups"
+              ]
+            },
+            "body": {}
+          }
+        },
+        {
+          "name": "DVR",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "https://frontman-1.onrender.com/fieldExecutive/dvr",
+              "host": [
+                "https://frontman-1.onrender.com"
+              ],
+              "path": [
+                "fieldExecutive",
+                "dvr"
+              ]
+            },
+            "body": {}
+          }
+        },
+        {
+          "name": "Delivery",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "https://frontman-1.onrender.com/fieldExecutive/delivery",
+              "host": [
+                "https://frontman-1.onrender.com"
+              ],
+              "path": [
+                "fieldExecutive",
+                "delivery"
+              ]
+            },
+            "body": {}
+          }
+        }
+      ]
+    },
+    {
+      "name": "ExternalSeller",
+      "item": [
+        {
+          "name": "Incentives",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "https://frontman-1.onrender.com/user/incentives",
+              "host": [
+                "https://frontman-1.onrender.com"
+              ],
+              "path": [
+                "user",
+                "incentives"
+              ]
+            },
+            "body": {}
+          }
+        },
+        {
+          "name": "Points",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "https://frontman-1.onrender.com/user/points",
+              "host": [
+                "https://frontman-1.onrender.com"
+              ],
+              "path": [
+                "user",
+                "points"
+              ]
+            },
+            "body": {}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Location (Common)",
+      "item": [
+        {
+          "name": "Submit Location",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "https://frontman-1.onrender.com/user/location",
+              "host": [
+                "https://frontman-1.onrender.com"
+              ],
+              "path": [
+                "user",
+                "location"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          }
+        },
+        {
+          "name": "View Location",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "https://frontman-1.onrender.com/user/location",
+              "host": [
+                "https://frontman-1.onrender.com"
+              ],
+              "path": [
+                "user",
+                "location"
+              ]
+            },
+            "body": {}
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,591 @@
+// Prisma schema for MongoDB
+// All id fields fixed with @db.ObjectId
+// All relation fields fixed
+// All types corrected for Prisma MongoDB compatibility
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  Admin
+  SalesManager
+  Plumber
+  Accountant
+  Distributor
+  FieldExecutive
+  Worker
+}
+
+enum StockStatus {
+  Available
+  Moved
+  Missing
+  Damaged
+}
+
+enum OrderStatus {
+  Pending
+  Completed
+  Cancelled
+}
+
+enum FollowUpStatus {
+  Pending
+  Completed
+  Postponed
+}
+
+enum TransactionType {
+  Earned
+  Claimed
+  Adjusted
+}
+
+enum CartStatus {
+  Active
+  CheckedOut
+  Abandoned
+}
+
+enum PromoCodeStatus {
+  Active
+  Inactive
+  Expired
+}
+
+enum InvoiceStatus {
+  Draft
+  Sent
+  Paid
+  Overdue
+  Cancelled
+}
+
+enum NotificationType {
+  Info
+  Alert
+  Promo
+  System
+}
+
+enum TaskStatus {
+  Pending
+  InProgress
+  Completed
+}
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String   @unique
+  phone     String
+  password  String
+  role      UserRole
+
+  admin           Admin?
+  salesManager    SalesManager?
+  plumber        Plumber?
+  accountant      Accountant?
+  distributor     Distributor?
+  fieldExecutive  FieldExecutive?
+  worker          Worker?
+  accountProfile  PlumberAccountProfile?
+
+  attendances     Attendance[]
+  transactions    PointTransaction[]
+  incentives      Incentive[] @relation("IncentiveAssigned")
+  deliveryReports DeliveryReport[]
+  orders          Order[]
+  liveLocations   LiveLocation[]
+  ShiftAlert      ShiftAlert[]
+  registeredWarranties RegisterWarranty[]
+  postDeliveryReports PostDeliveryReport[]
+  commissionedWorks   CommissionedWork[]
+  carts           Cart[]
+  audits          Audit[]
+  notifications   Notification[]
+  financialLogs   FinancialLog[]
+  sentMessages    ChatMessage[] @relation("SentMessages")
+  receivedMessages ChatMessage[] @relation("ReceivedMessages")
+}
+
+model Company {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String   @unique
+  description String?
+  logoUrl     String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  admins      Admin[]
+}
+
+model Admin {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String  @unique @db.ObjectId
+  companyId String? @db.ObjectId
+  user      User    @relation(fields: [userId], references: [id])
+  company   Company? @relation(fields: [companyId], references: [id])
+}
+
+model SalesManager {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  userId  String @unique @db.ObjectId
+  user    User   @relation(fields: [userId], references: [id])
+}
+
+model Plumber {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  userId  String @unique @db.ObjectId
+  user    User   @relation(fields: [userId], references: [id])
+}
+
+model PlumberAccountProfile {
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String   @unique @db.ObjectId
+  fullName          String
+  contactNumber     String
+  upiId             String?
+  upiQrUrl          String?
+  email             String?
+  bankName          String?
+  accountNumber     String?
+  accountHolderName String?
+  ifscCode          String?
+  branchName        String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  user              User     @relation(fields: [userId], references: [id])
+}
+
+model Accountant {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  userId  String @unique @db.ObjectId
+  user    User   @relation(fields: [userId], references: [id])
+}
+
+model Distributor {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  userId  String @unique @db.ObjectId
+  user    User   @relation(fields: [userId], references: [id])
+}
+
+model FieldExecutive {
+  id            String              @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String              @unique @db.ObjectId
+  user          User                @relation(fields: [userId], references: [id])
+  followUps     CustomerFollowUp[]
+  dvrReports    DVR[]
+}
+
+model Worker {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  userId  String @unique @db.ObjectId
+  user    User   @relation(fields: [userId], references: [id])
+}
+
+model Product {
+  id               String          @id @default(auto()) @map("_id") @db.ObjectId
+  name             String
+  price            Float
+  stockQuantity    Int
+  warrantyPeriodInMonths Int
+  categoryId       String?         @db.ObjectId
+
+  stocks           Stock[]
+  warrantyCards    WarrantyCard[]
+  orderItems       OrderItem[]
+  registeredWarranties RegisterWarranty[]
+  cartItems        CartItem[]
+  category         Category?       @relation(fields: [categoryId], references: [id])
+}
+
+model Stock {
+  id        String       @id @default(auto()) @map("_id") @db.ObjectId
+  productId String       @db.ObjectId
+  status    StockStatus
+  location  String
+
+  product   Product      @relation(fields: [productId], references: [id])
+  damageReports DamageReport[]
+}
+
+model WarrantyCard {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  productId      String   @db.ObjectId
+  serialNumber   String
+  purchaseDate   DateTime
+  expiryDate     DateTime
+  scanQR         String
+  validViaWarranIQ String
+
+  product        Product  @relation(fields: [productId], references: [id])
+}
+
+model Attendance {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String   @db.ObjectId
+  date       DateTime
+  checkIn    DateTime
+  checkOut   DateTime?
+
+  user       User     @relation(fields: [userId], references: [id])
+}
+
+model CustomerFollowUp {
+  id             String          @id @default(auto()) @map("_id") @db.ObjectId
+  executiveId    String          @db.ObjectId
+  customerName   String
+  contactDetails String
+  feedback       String
+  status         FollowUpStatus
+  nextFollowUpDate DateTime
+
+  executive      FieldExecutive  @relation(fields: [executiveId], references: [id])
+}
+
+model PointTransaction {
+  id         String          @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String          @db.ObjectId
+  points     Int
+  creditAmount Float
+  date       DateTime
+  reason     String
+  type       TransactionType
+
+  user       User            @relation(fields: [userId], references: [id])
+}
+
+model Incentive {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  description String
+  points      Int
+  assignedId  String   @db.ObjectId
+  assignedAt  DateTime
+
+  assignedTo  User     @relation("IncentiveAssigned", fields: [assignedId], references: [id])
+}
+
+model DVR {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  executiveId    String   @db.ObjectId
+  feedback       String
+  location       String
+  status         String   @default("Pending")
+  approvedBy     String?  @db.ObjectId
+  approvedAt     DateTime?
+
+  executive      FieldExecutive @relation(fields: [executiveId], references: [id])
+}
+
+model DeliveryReport {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId       String   @db.ObjectId
+  product      String
+  quantity     Int
+  isForecasted Boolean
+  qrRequested  Boolean  @default(false)
+  submittedAt  DateTime
+
+  user         User     @relation(fields: [userId], references: [id])
+}
+
+model Order {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String       @db.ObjectId
+  status      OrderStatus
+  orderDate   DateTime
+  promoCodeId String?      @db.ObjectId
+  orderItems  OrderItem[]
+  invoice     Invoice?
+
+  user        User         @relation(fields: [userId], references: [id])
+  promoCode   PromoCode?  @relation(fields: [promoCodeId], references: [id])
+}
+
+model OrderItem {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  orderId    String   @db.ObjectId
+  productId  String   @db.ObjectId
+  quantity   Int
+  unitPrice  Float
+
+  order      Order    @relation(fields: [orderId], references: [id])
+  product    Product  @relation(fields: [productId], references: [id])
+}
+
+model Invoice {
+  id           String        @id @default(auto()) @map("_id") @db.ObjectId
+  orderId      String        @unique @db.ObjectId
+  invoiceDate  DateTime
+  totalAmount  Float
+  pdfUrl       String
+  status       InvoiceStatus @default(Draft)
+  sentAt       DateTime?
+  paidAt       DateTime?
+  dueDate      DateTime?
+
+  order        Order         @relation(fields: [orderId], references: [id])
+}
+
+model LiveLocation {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String   @db.ObjectId
+  latitude   Float
+  longitude  Float
+  timeStamp  DateTime
+
+  user       User     @relation(fields: [userId], references: [id])
+}
+
+model ShiftAlert {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  message   String
+  createdAt DateTime @default(now())
+  acknowledged Boolean @default(false)
+
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model RegisterWarranty {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  productId      String   @db.ObjectId
+  serialNumber   String   @unique
+  purchaseDate   DateTime
+  warrantyMonths Int
+  sellerId       String   @db.ObjectId
+  registeredAt   DateTime @default(now())
+  qrImage        String?
+  product        Product  @relation(fields: [productId], references: [id])
+  seller         User     @relation(fields: [sellerId], references: [id])
+}
+
+model PostDeliveryReport {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId       String   @db.ObjectId
+  product      String
+  quantity     Int
+  submittedAt  DateTime @default(now())
+
+  user         User     @relation(fields: [userId], references: [id])
+}
+
+model CommissionedWork {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String   @db.ObjectId
+  latitude    Float
+  longitude   Float
+  qrCode      String   // JSON string or QR code data
+  qrImage     Bytes    // BSON Binary for storing QR code image
+  appliedAt   DateTime @default(now())
+
+  user        User     @relation(fields: [userId], references: [id])
+}
+
+model Category {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String   @unique
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  products    Product[]
+}
+
+model Cart {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String     @unique @db.ObjectId
+  status    CartStatus @default(Active)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  user      User       @relation(fields: [userId], references: [id])
+  items     CartItem[]
+}
+
+model CartItem {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  cartId     String   @db.ObjectId
+  productId  String   @db.ObjectId
+  quantity   Int
+  addedAt    DateTime @default(now())
+
+  cart       Cart     @relation(fields: [cartId], references: [id])
+  product    Product  @relation(fields: [productId], references: [id])
+}
+
+model PromoCode {
+  id           String           @id @default(auto()) @map("_id") @db.ObjectId
+  code         String           @unique
+  description  String
+  discountType String           // "percentage" or "fixed"
+  discountValue Float
+  minOrderAmount Float?
+  maxDiscount  Float?
+  usageLimit   Int?
+  usedCount    Int              @default(0)
+  status       PromoCodeStatus  @default(Active)
+  validFrom    DateTime
+  validUntil   DateTime
+  createdAt    DateTime         @default(now())
+
+  orders      Order[]
+}
+
+model Audit {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  action    String
+  resource  String?
+  details   String?
+  timestamp DateTime @default(now())
+
+  @@index([userId, action, timestamp])
+}
+
+model Notification {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  type      String
+  message   String
+  userId    String?  @db.ObjectId
+  user      User?    @relation(fields: [userId], references: [id])
+  isRead      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([userId, isRead])
+}
+
+enum FinancialLogType {
+  Income
+  Expense
+  Transfer
+  Adjustment
+}
+
+model FinancialLog {
+  id          String           @id @default(auto()) @map("_id") @db.ObjectId
+  type        FinancialLogType
+  amount      Float
+  description String
+  category    String?
+  reference   String?          // Reference to order, invoice, or other related entity
+  createdBy   String           @db.ObjectId
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  createdByUser User @relation(fields: [createdBy], references: [id])
+
+  @@index([type, createdAt])
+  @@index([createdBy, createdAt])
+}
+
+model Task {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  status      TaskStatus @default(Pending)
+  dueDate     DateTime?
+  executiveId String     @db.ObjectId
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+}
+
+model DamageReport {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  stockId   String   @db.ObjectId
+  workerId  String   @db.ObjectId
+  reason    String
+  quantity  Int
+  location   String 
+  reportedAt DateTime @default(now())
+
+  stock     Stock    @relation(fields: [stockId], references: [id])
+}
+
+// Sales Executive Models
+model Customer {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  email       String?
+  phone       String
+  location    String
+  address     String?
+  assignedTo  String   @db.ObjectId
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  visits      CustomerVisit[]
+}
+
+model CustomerVisit {
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  customerId        String   @db.ObjectId
+  executiveId       String   @db.ObjectId
+  visitDate         DateTime
+  location          String
+  peoplePresent     String?
+  productsDiscussed String?
+  reasonForVisit    String?
+  customerConcerns  String?
+  investigationStatus String?
+  rootCause         String?
+  correctiveAction  String?
+  recommendations   String?
+  feedback          String?
+  reportCompletedBy String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  customer          Customer @relation(fields: [customerId], references: [id])
+}
+
+model ChatMessage {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  senderId  String   @db.ObjectId
+  receiverId String? @db.ObjectId
+  content   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  sender    User     @relation("SentMessages", fields: [senderId], references: [id])
+  receiver  User?    @relation("ReceivedMessages", fields: [receiverId], references: [id])
+}
+
+model CapturedImage {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  executiveId String   @db.ObjectId
+  imageData   Bytes
+  latitude    Float?
+  longitude   Float?
+  description String?
+  createdAt   DateTime @default(now())
+}
+
+model Signature {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  executiveId String   @db.ObjectId
+  signatureData Bytes
+  context     String?  // What the signature is for
+  createdAt   DateTime @default(now())
+}
+
+model OfflineData {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  executiveId String   @db.ObjectId
+  dataType    String   // 'order', 'visit', 'image', etc.
+  data        String   // JSON string of the data
+  synced      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  syncedAt    DateTime?
+}
